@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Área de Danos · Processo real × projeto Carol · Análise consolidada</title>
+<style>
+  :root{
+    --navy:#00143D; --coral:#FC6058; --azul:#0055FF;
+    --bg:#EFF3FB; --surface:#ffffff; --line:#E2E6F0; --line2:#CBD6EE;
+    --ink:#2E2E2E; --mute:#7C7C7C; --verde:#249555; --ambar:#D88800;
+    --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s6:24px; --s8:32px; --s12:48px; --s16:64px;
+    --shadow:0 0 3.3px rgba(0,20,61,.18);
+    --r:12px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:"Seazone Helvetica","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size:15px; line-height:1.55; -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{margin:0; color:var(--navy); letter-spacing:-.015em}
+  h1{font-size:clamp(30px,4.4vw,46px); font-weight:700; letter-spacing:-.025em; line-height:1.06; max-width:28ch; margin-top:var(--s3)}
+  h2{font-size:21px; font-weight:700}
+  h3{font-size:17px; font-weight:700; max-width:40ch}
+  h4{font-size:15px; font-weight:700}
+  p{margin:var(--s3) 0}
+  a{color:var(--azul); text-decoration:none; border-bottom:1px solid rgba(0,85,255,.3)}
+  a:hover{border-bottom-color:var(--azul)}
+  strong{font-weight:700; color:var(--navy)}
+  code{font-family:ui-monospace,"SF Mono",Menlo,monospace; font-size:12.5px; background:#F1F3F8; padding:1px 6px; border-radius:4px; color:var(--navy)}
+  ul,ol{margin:var(--s3) 0; padding-left:var(--s6)}
+  ul li,ol li{margin-bottom:var(--s2)}
+
+  .wrap{max-width:1080px; margin:0 auto; padding:var(--s12) var(--s6) var(--s16)}
+
+  .kicker{display:inline-flex; align-items:center; gap:var(--s2);
+    font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--coral)}
+  .meta{font-size:12.5px; color:var(--mute); margin-top:var(--s2)}
+  .lede{font-size:16px; max-width:74ch; margin:var(--s4) 0 var(--s8); color:var(--ink)}
+  .sub{color:var(--mute); font-size:14.5px; max-width:72ch; margin-top:var(--s3)}
+  .k{font-size:11px; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:var(--mute)}
+  .al{color:var(--coral)}
+  .num{font-variant-numeric:tabular-nums}
+
+  /* PLACAR (KPIs) */
+  .placar{display:grid; grid-template-columns:repeat(4,1fr); gap:var(--s6);
+    margin-top:var(--s8); padding:var(--s6) 0;
+    border-top:1px solid var(--line2); border-bottom:1px solid var(--line2)}
+  .placar .q{min-width:0}
+  .placar .k{margin-bottom:var(--s2)}
+  .placar .no{font-size:34px; font-weight:700; color:var(--navy); letter-spacing:-.03em; line-height:.95}
+  .placar .sub{font-size:13px; margin-top:var(--s2)}
+
+  /* SECTION HEAD */
+  .sechead{display:flex; align-items:baseline; justify-content:space-between; gap:var(--s6);
+    border-bottom:1px solid var(--line2); padding-bottom:var(--s3); margin:var(--s16) 0 var(--s8)}
+  .sechead h2{max-width:36ch}
+  .sechead .hint{color:var(--mute); font-size:13px; text-align:right; max-width:46ch}
+
+  /* LEGEND strip */
+  .legend{display:flex; gap:var(--s6); flex-wrap:wrap; padding:var(--s4) var(--s6);
+    background:var(--surface); border-radius:var(--r); box-shadow:var(--shadow);
+    margin-top:var(--s6); font-size:13px}
+  .legend .item{display:flex; gap:var(--s2); align-items:center}
+  .tag{font-size:10.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+    padding:2px 8px; border-radius:6px}
+  .tag.fato{background:#E4F4EA; color:#186E3E}
+  .tag.ana{background:#EAF0FF; color:var(--azul)}
+  .tag.nd{background:#FFF8EC; color:#8A5E00}
+
+  /* TRILHA (etapas) */
+  .trilha{display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+    background:var(--line2); border-radius:var(--r); overflow:hidden; box-shadow:var(--shadow);
+    margin-top:var(--s6)}
+  .etapa{background:var(--surface); padding:var(--s6) var(--s4) var(--s4)}
+  .etapa .ord{font-size:11px; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:var(--mute); margin-bottom:var(--s2)}
+  .etapa .fase{font-weight:700; color:var(--navy); font-size:15px}
+  .etapa .who{color:var(--mute); font-size:12px; margin-top:var(--s1)}
+  .etapa .dor{font-size:12.5px; margin-top:var(--s3); color:var(--ink)}
+  .etapa .pins{margin-top:var(--s3); display:flex; gap:var(--s1); flex-wrap:wrap}
+  .pin{font-size:10.5px; font-weight:700; padding:3px 7px; border-radius:6px; background:#F1F3F8; color:var(--navy)}
+  .pin.ext{background:#001D5B; color:#fff}
+  .pin.ped{background:#FFE9E7; color:#C4322A}
+
+  /* PILL STATUS */
+  .pill{display:inline-block; font-size:11px; font-weight:700; padding:3px 8px; border-radius:6px; letter-spacing:.02em}
+  .ok{background:#E4F4EA; color:#186E3E}
+  .wip{background:#FFF4E0; color:#8A5E00}
+  .no-ped{background:#FFE9E7; color:#C4322A}
+  .roadmap{background:#E4F4EA; color:#186E3E}
+  .parado{background:#FFE9E7; color:#C4322A}
+  .escalado{background:#EAF0FF; color:var(--azul)}
+  .fila{background:#F1F3F8; color:var(--navy)}
+
+  /* PEDIDO / COL */
+  .pedido{background:var(--surface); border-radius:var(--r); box-shadow:var(--shadow); padding:var(--s8); margin-bottom:var(--s6)}
+  .ptop{display:grid; grid-template-columns:auto 1fr auto; gap:var(--s6); align-items:start;
+    padding-bottom:var(--s4); border-bottom:1px solid var(--line)}
+  .ptop .no{font-size:34px; font-weight:700; color:var(--line2); letter-spacing:-.04em; line-height:.9}
+  .pbody{display:grid; grid-template-columns:1.05fr 1fr; gap:var(--s8); margin-top:var(--s6)}
+  .pbody h4{color:var(--navy); margin-bottom:var(--s2)}
+  .pbody .cap{font-size:11.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--coral); margin-bottom:var(--s2)}
+  .ganho{background:#F5F8FF; border:1px solid #DCE6FF; border-radius:10px; padding:var(--s4) var(--s6); margin-top:var(--s6)}
+  .ganhof{font-size:13px; color:var(--azul); font-weight:700; margin-top:var(--s3); padding-top:var(--s3); border-top:1px solid var(--line)}
+  .resposta{display:grid; grid-template-columns:1fr auto; gap:var(--s6); align-items:center;
+    margin-top:var(--s6); padding-top:var(--s4); border-top:1px solid var(--line); font-size:13px; color:var(--mute)}
+
+  .alerta{background:#FFF8EC; border:1px solid #F2DFBE; border-radius:10px; padding:var(--s4) var(--s6); margin-top:var(--s4); font-size:13.5px}
+  .alerta strong{color:#8A5E00}
+
+  /* COL (branco) e EXT (navy escuro) */
+  .duas{display:grid; grid-template-columns:1fr 1fr; gap:var(--s6); margin-top:var(--s6)}
+  .col{background:var(--surface); border-radius:var(--r); box-shadow:var(--shadow); padding:var(--s6) var(--s8) var(--s8)}
+  .col .cap{font-size:11.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--coral); margin-bottom:var(--s4)}
+  .col ul{margin:0; padding-left:var(--s4); font-size:13.5px}
+  .col ul li{margin-bottom:var(--s2)}
+  .ext{background:var(--navy); color:#fff; border-radius:var(--r); padding:var(--s8); margin-bottom:var(--s6)}
+  .ext h2,.ext h3,.ext h4{color:#fff}
+  .ext .cap{color:#9FB0D0}
+  .ext .lab{font-size:11.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#9FB0D0}
+  .ext .desc{color:#C6D2E6; font-size:14.5px; max-width:72ch; margin-top:var(--s3)}
+  .ext .pill{background:rgba(255,255,255,.14); color:#DCE6FF}
+  .ext .pill.ok{background:#E4F4EA; color:#186E3E}
+  .ext .pin{background:rgba(255,255,255,.14); color:#DCE6FF}
+  .ext .nota{margin-top:var(--s6); padding-top:var(--s6); border-top:1px solid rgba(255,255,255,.2);
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:var(--s6)}
+  .ext .nota .k{color:#9FB0D0}
+
+  .esteira{list-style:none; margin:var(--s6) 0 0; padding:0; display:grid; gap:var(--s2)}
+  .esteira .ord{font-size:11px; font-weight:700; letter-spacing:.13em; color:#9FB0D0}
+  .esteira li{background:rgba(255,255,255,.06); padding:var(--s4) var(--s6); border-radius:8px; display:grid; grid-template-columns:40px 1fr auto; gap:var(--s4); align-items:start}
+  .esteira li .n{font-weight:700; color:#9FB0D0}
+  .esteira li .d{font-size:13px}
+  .esteira li .e{font-size:13.5px; font-weight:700}
+  .esteira li .st{font-size:11px; font-weight:700; padding:3px 8px; border-radius:6px}
+
+  /* TABLES */
+  table{width:100%; border-collapse:collapse; background:var(--surface); border-radius:var(--r); overflow:hidden; box-shadow:var(--shadow); margin:var(--s4) 0 var(--s6); font-size:13.5px}
+  th{text-align:left; padding:var(--s3) var(--s4); background:#F5F8FF; color:var(--navy);
+    font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+    border-bottom:1px solid var(--line2); vertical-align:bottom}
+  td{padding:var(--s3) var(--s4); border-bottom:1px solid var(--line); vertical-align:top; line-height:1.5}
+  tr:last-child td{border-bottom:0}
+
+  /* BADGES */
+  .id{display:inline-block; font-size:10.5px; font-weight:700; letter-spacing:.04em; padding:2px 7px; border-radius:4px; background:#F1F3F8; color:var(--navy); white-space:nowrap}
+  .id.p{background:var(--navy); color:#fff}
+  .id.a{background:var(--azul); color:#fff}
+  .id.m{background:#D8DEEA; color:var(--navy)}
+  .id.r{background:#FFE9E7; color:#C4322A}
+  .prio{display:inline-block; font-size:10.5px; font-weight:700; padding:2px 8px; border-radius:6px; letter-spacing:.04em; text-transform:uppercase}
+  .prio.alta{background:#FFE9E7; color:#C4322A}
+  .prio.media{background:#FFF4E0; color:#8A5E00}
+  .prio.baixa{background:#F1F3F8; color:var(--mute)}
+  .yn{font-weight:700; font-size:11px; letter-spacing:.04em}
+  .yn.sim{color:#186E3E}
+  .yn.nao{color:#C4322A}
+  .yn.parc{color:#8A5E00}
+
+  /* TOC */
+  .toc{background:var(--surface); border-radius:var(--r); box-shadow:var(--shadow); padding:var(--s6); margin-top:var(--s8)}
+  .toc .k{margin-bottom:var(--s3)}
+  .toc ol{columns:2; column-gap:var(--s8); margin:0; padding:0; list-style:none}
+  .toc li{break-inside:avoid; padding:var(--s2) 0; font-size:14px; counter-increment:toc}
+  .toc li::before{content:counter(toc,decimal-leading-zero); font-size:11px; color:var(--mute); font-weight:700; margin-right:var(--s2)}
+  .toc{counter-reset:toc}
+
+  /* FLOW */
+  .flow{background:var(--navy); color:#D8DEEA; border-radius:var(--r); padding:var(--s6) var(--s8);
+    font-family:ui-monospace,"SF Mono",Menlo,monospace; font-size:12.5px; line-height:1.75; overflow-x:auto; white-space:pre; margin:var(--s6) 0}
+  .flow .lbl{color:var(--coral); font-weight:700}
+  .flow .decision{color:#FFD57A}
+  .flow .arrow{color:#7B8EB8}
+  .flow .process{color:#8CF0A6}
+
+  /* PROC CARDS */
+  .proc-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:var(--s6); margin-top:var(--s4)}
+  .proc{background:var(--surface); border-radius:var(--r); box-shadow:var(--shadow); padding:var(--s6)}
+  .proc.p0{border-left:4px solid var(--coral)}
+  .proc h4{color:var(--navy); margin-bottom:var(--s1); font-size:15.5px}
+  .proc .pid{font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--coral); margin-bottom:var(--s3)}
+  .proc dl{display:grid; grid-template-columns:90px 1fr; gap:var(--s2) var(--s4); font-size:12.5px; margin:0}
+  .proc dt{font-size:10.5px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--mute); padding-top:3px}
+  .proc dd{margin:0; color:var(--ink)}
+  .proc .warn{color:#C4322A; font-weight:700}
+
+  /* STRIP */
+  .strip{display:grid; grid-template-columns:120px 1fr; gap:var(--s4); padding:var(--s4) var(--s6);
+    background:var(--surface); border-radius:var(--r); box-shadow:var(--shadow); margin:var(--s4) 0; border-left:4px solid var(--coral); font-size:13.5px}
+  .strip.ok{border-left-color:var(--verde)}
+  .strip.warn{border-left-color:var(--ambar)}
+  .strip.neg{border-left-color:#C4322A}
+  .strip .badge{font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--coral); padding-top:2px}
+  .strip.ok .badge{color:var(--verde)}
+  .strip.warn .badge{color:var(--ambar)}
+  .strip.neg .badge{color:#C4322A}
+
+  /* FINAL CHECK */
+  .final-check{background:var(--navy); color:#fff; border-radius:var(--r); padding:var(--s8); margin-top:var(--s8)}
+  .final-check h3{color:#fff; font-size:22px; max-width:none; margin-bottom:var(--s3)}
+  .final-check h3 em{color:var(--coral); font-style:italic}
+  .final-check p,.final-check li{color:#D8DEEA; font-size:14px}
+  .final-check strong{color:#fff}
+  .final-check .finish{margin-top:var(--s6); padding:var(--s4) var(--s6); background:rgba(255,255,255,.08); border-left:3px solid var(--coral); font-size:14px; color:#fff}
+
+  footer{margin-top:var(--s16); padding-top:var(--s6); border-top:1px solid var(--line2);
+    display:flex; justify-content:space-between; align-items:baseline; font-size:12px; color:var(--mute); letter-spacing:.04em}
+
+  @media(max-width:900px){
+    .wrap{padding:var(--s8) var(--s4) var(--s12)}
+    .placar{grid-template-columns:repeat(2,1fr)}
+    .trilha{grid-template-columns:1fr}
+    .pbody,.duas,.proc-grid{grid-template-columns:1fr}
+    .toc ol{columns:1}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="kicker"><span>Projeto de Danos</span> · <span>Análise consolidada</span></div>
+  <h1>Processo real da área de Danos <span class="al">×</span> projeto Carol.</h1>
+  <p class="sub">Cruzamento entre o processo real (7 canvases oficiais do Slack + canvas upstream de Detecção de Crise NewByte) e o projeto da Carol (plano em 5 fases de 01/10 + status 21/08/2026 revisado pela Fabíola). O objetivo é identificar onde está o esforço, o que já está contemplado e o que ficou de fora &mdash; sem propor automação além do que o cruzamento sustenta.</p>
+  <div class="meta">Rayanne Oliveira · BackOffice Franquias · 01 de outubro de 2026</div>
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="item"><span class="tag fato">FATO</span> extraído dos materiais</div>
+    <div class="item"><span class="tag ana">ANÁLISE</span> cruzamento / dedução</div>
+    <div class="item"><span class="tag nd">ND</span> informação não disponível</div>
+  </div>
+  <div class="legend">
+    <div class="item"><strong>A.</strong> Plano Carol (01/10/2026)</div>
+    <div class="item"><strong>B.</strong> 7 canvases de Danos (set/2026)</div>
+    <div class="item"><strong>C.</strong> Canvas Detecção de Crise NewByte (jul/2026)</div>
+    <div class="item"><strong>D.</strong> Melhorias no processo de danos · 21/08/2026 (Fabíola)</div>
+  </div>
+
+  <!-- PLACAR -->
+  <div class="placar">
+    <div class="q"><div class="k">Fontes lidas</div><div class="no">8</div><div class="sub">+1 status 21/08</div></div>
+    <div class="q"><div class="k">Cards no kanban</div><div class="no">141</div><div class="sub">em 30/09 · todas as fases</div></div>
+    <div class="q"><div class="k">Taxa de pagamento</div><div class="no">63%</div><div class="sub">histórico de danos encerrados</div></div>
+    <div class="q"><div class="k">Automações no backlog</div><div class="no">19</div><div class="sub">+ 4 Pedidos à Tech em aberto</div></div>
+  </div>
+
+  <!-- TOC -->
+  <nav class="toc">
+    <div class="k">Nesta análise</div>
+    <ol>
+      <li><a href="#s1">Resumo executivo</a></li>
+      <li><a href="#s2">Duas frentes do projeto de automação (status 21/08)</a></li>
+      <li><a href="#s3">Arquitetura de processos</a></li>
+      <li><a href="#s4">Pontos manuais e retrabalhos</a></li>
+      <li><a href="#s5">Cruzamento com o plano Carol</a></li>
+      <li><a href="#s6">Automações identificadas</a></li>
+      <li><a href="#s7">Estratégia tecnológica</a></li>
+      <li><a href="#s8">Permanecem manuais</a></li>
+      <li><a href="#s9">Backlog final</a></li>
+      <li><a href="#s10">Lacunas &amp; checagem final</a></li>
+    </ol>
+  </nav>
+
+  <!-- =============== -->
+  <!-- S1 RESUMO -->
+  <!-- =============== -->
+  <div class="sechead" id="s1"><h2>Resumo executivo</h2><div class="hint">O que mudou com a leitura do processo e do status 21/08</div></div>
+
+  <p class="lede">O projeto da Carol cobre bem as duas principais dores apontadas pela Fabi &mdash; finalização no Airbnb e contatos com hóspedes &mdash; e a área já possui 4 automações próprias em diferentes estágios de maturidade.</p>
+  <p class="lede">O cruzamento com o processo real, porém, evidencia <strong>5 fluxos operacionais ainda não contemplados</strong>, <strong>4 padrões já existentes</strong> que o plano ignora ou acaba reinventando, <strong>1 risco de regressão</strong> ainda não mapeado e <strong>4 Pedidos à Tech em aberto</strong> desde junho/julho de 2026, alguns há mais de 60 dias. Esses pedidos já estão sendo cobrados pela área e permanecem como pendências para evolução do processo.</p>
+
+  <div class="duas">
+    <div class="col">
+      <div class="cap">Fluxos não contemplados</div>
+      <ul>
+        <li>Dano Esdrúxulo (5 critérios de escalada)</li>
+        <li>Multas Airbnb (fluxo próprio de 72h)</li>
+        <li>Monitor diário AirCover por e-mail delegado</li>
+        <li>EasyCover caminho Proprietário</li>
+        <li>Seguros RC Airbnb/Booking (Crawford)</li>
+      </ul>
+    </div>
+    <div class="col">
+      <div class="cap">Padrões já existentes ignorados</div>
+      <ul>
+        <li>Lista oficial de 3+10 motivos (encerramento)</li>
+        <li>Tags <code>[Danos] ...</code> da NewByte</li>
+        <li>3 templates aprovados pela Meta</li>
+        <li>Regra "último comentário = relato do hóspede" (Olimpo)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- =============== -->
+  <!-- S2 DUAS FRENTES -->
+  <!-- =============== -->
+  <div class="sechead" id="s2"><h2>Duas frentes do projeto de automação da área · status 21/08/2026</h2><div class="hint">A frente própria ataca o meio do fluxo; cada Pedido à Tech ataca uma etapa específica</div></div>
+
+  <p class="lede">Nomenclatura do próprio projeto (fonte D): <strong>Extensão 1-3 + Automação 4</strong> (frente própria, não depende da fila da Tech) · <strong>Pedidos 1-4 à Tech</strong> (exigem mudança no Sapron). Esta tabela reconcilia com as Fases 1-5 do plano repassado em 01/10.</p>
+
+  <!-- Trilha de etapas -->
+  <div class="trilha">
+    <div class="etapa">
+      <div class="ord">Etapa 1</div>
+      <div class="fase">Lançamento</div>
+      <div class="who">Franquia · Seazone Host</div>
+      <div class="dor">Dano entra com descrição curta, print de conversa no lugar de foto do item e sem motivo do acionamento.</div>
+      <div class="pins"><span class="pin ped">Pedido 1</span><span class="pin ped">Pedido 4</span></div>
+    </div>
+    <div class="etapa">
+      <div class="ord">Etapa 2</div>
+      <div class="fase">Validação</div>
+      <div class="who">Analista de Danos (Fabi)</div>
+      <div class="dor">Valida sem o contexto que precisa. A tratativa acontece na NewByte, fora do card.</div>
+      <div class="pins"><span class="pin ped">Pedido 4</span></div>
+    </div>
+    <div class="etapa">
+      <div class="ord">Etapa 3</div>
+      <div class="fase">Acionamento</div>
+      <div class="who">AirCover · EasyCover · hóspede</div>
+      <div class="dor">Formulário longo preenchido à mão, um por dano. Franquia não sabia se o imóvel tinha EasyCover.</div>
+      <div class="pins"><span class="pin ped">Pedido 3</span><span class="pin ext">Ext 1·2·3</span></div>
+    </div>
+    <div class="etapa">
+      <div class="ord">Etapa 4</div>
+      <div class="fase">Finalização e reembolso</div>
+      <div class="who">Analista + franquia</div>
+      <div class="dor">Marcar como pago é uma tela, registrar o reembolso é outra. Sem campo de origem do dinheiro.</div>
+      <div class="pins"><span class="pin ped">Pedido 2</span><span class="pin ped">Pedido 3</span><span class="pin ext">Automação 4</span></div>
+    </div>
+  </div>
+
+  <!-- Extensões (frente própria) -->
+  <div class="ext" style="margin-top:var(--s8)">
+    <div class="cap">Frente própria · extensões</div>
+    <h3>O que estamos construindo por conta própria</h3>
+    <p class="desc">Quatro automações que não dependem da fila da Tech. Encurtam o trabalho repetitivo de acionar cobertura, falar com o hóspede e repassar o caso &mdash; onde a Fabi gasta a maior parte do tempo. Nenhuma substitui os Pedidos à Tech.</p>
+
+    <ul class="esteira">
+      <li>
+        <div class="n">01</div>
+        <div><div class="e">Extensão 1 · AirCover Autofill</div><div class="d">Preenche automaticamente o formulário do AirCover a partir do "Capturar dano" no Sapron. 5/7 passos automatizados; anexo de imagem ainda manual; tela de revisão instável.</div></div>
+        <div><span class="st pill wip">EM TESTE</span></div>
+      </li>
+      <li>
+        <div class="n">02</div>
+        <div><div class="e">Extensão 2 · Abertura de sinistro EasyCover</div><div class="d">Mesmo princípio aplicado ao formulário do seguro. Complexidade menor que a primeira. Em 21/08 era "próxima da fila"; evolução pós-21/08 colocou em produção.</div></div>
+        <div><span class="st pill ok">EM PRODUÇÃO</span></div>
+      </li>
+      <li>
+        <div class="n">03</div>
+        <div><div class="e">Extensão 3 · Comunicação com hóspedes outras OTAs</div><div class="d">Sugere resposta a partir do contexto do dano e do histórico de tratativas. Equivale às Fases 3 e 4 do plano atual.</div></div>
+        <div><span class="st pill">PLANEJADA</span></div>
+      </li>
+      <li>
+        <div class="n">04</div>
+        <div><div class="e">Automação 4 · Lançamento automático para o Jurídico</div><div class="d">Thread no Slack marcando o Jurídico com os dados do dano quando entra em Cobrança Judicial. Olimpo entrou em produção entre 21/08 e 27/08.</div></div>
+        <div><span class="st pill ok">EM PRODUÇÃO</span></div>
+      </li>
+    </ul>
+
+    <div class="nota">
+      <div><div class="k">Ganho principal</div>Tira a passagem de bastão manual do fim do fluxo</div>
+      <div><div class="k">Em desenvolvimento</div>Extensão 1 em segundo plano · estabilizar tela de revisão</div>
+      <div><div class="k">Ideia a testar</div>Quando franquia lança item como "Outros", inferir o item real pela descrição</div>
+    </div>
+  </div>
+
+  <!-- Pedidos à Tech -->
+  <div class="cap" style="color:var(--coral); font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; margin-top:var(--s8); margin-bottom:var(--s3)">Frente dependente · 4 Pedidos à Tech em aberto</div>
+
+  <div class="pedido">
+    <div class="ptop">
+      <div class="no">01</div>
+      <div>
+        <h3>Excluir card de dano lançado incorretamente</h3>
+        <div class="meta">Solicitado em 22/06/2026 · 60 dias em aberto · afeta Etapa 1 — Lançamento</div>
+      </div>
+      <span class="pill fila">Backlog sem previsão</span>
+    </div>
+    <div class="pbody">
+      <div>
+        <div class="cap">O que trava hoje</div>
+        <p>Sistema não permite excluir card de dano lançado errado &mdash; só cancelar. Cancelamento mantém vínculo de "dano existente" na reserva, o que bloqueia o lançamento correto. A Fabi corrige o card à mão.</p>
+      </div>
+      <div>
+        <div class="cap">O que foi pedido</div>
+        <ul>
+          <li>Permitir excluir o card, não apenas cancelar</li>
+          <li>Ao excluir, liberar a reserva para novo lançamento correto</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ganho"><div class="ganhof">Como isso ajuda o processo</div>Devolve a correção para quem errou. Hoje o erro da franquia vira trabalho manual da analista.</div>
+    <div class="resposta"><div>Sherlog Holmes classificou como solicitação operacional (Sapron) e repassou para investigação de banco. Karol respondeu que não é alta prioridade.</div></div>
+  </div>
+
+  <div class="pedido">
+    <div class="ptop">
+      <div class="no">02</div>
+      <div>
+        <h3>Finalização do dano com reembolso e origem do pagamento na mesma tela</h3>
+        <div class="meta">Solicitado em 22/06/2026 · 60 dias em aberto · afeta Etapa 4 — Finalização</div>
+      </div>
+      <span class="pill escalado">Escalado ao board</span>
+    </div>
+    <div class="pbody">
+      <div>
+        <div class="cap">O que trava hoje</div>
+        <p>Finalizar o dano como "Pago" e registrar o reembolso são dois momentos separados. Não existe campo para dizer quem pagou &mdash; um dano pago pelo AirCover e um pago pelo hóspede ficam idênticos na base.</p>
+      </div>
+      <div>
+        <div class="cap">O que foi pedido</div>
+        <ul>
+          <li>Unificar em uma única tela a finalização "Pago" + registro do reembolso</li>
+          <li>Campo obrigatório origem do pagamento: AirCover, Hóspede, EasyCover, Outro</li>
+          <li>Campo aberto quando a resposta for "Outro"</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ganho"><div class="ganhof">Como isso ajuda o processo</div>Dois ganhos: um passo a menos por dano finalizado + passa a existir o dado de quem realmente paga os danos (preenchível também retroativamente).</div>
+    <div class="resposta"><div>David Soares reforçou que ajuda a mapear a origem do pagador. Karol escalou para o board.</div></div>
+  </div>
+
+  <div class="pedido">
+    <div class="ptop">
+      <div class="no">03</div>
+      <div>
+        <h3>Visibilidade do EasyCover — cobertura no Host e valor pago para a franquia</h3>
+        <div class="meta">Solicitado em 16/06/2026 · 66 dias · 1 dos 2 itens entregue · afeta Etapas 3 e 4</div>
+      </div>
+      <span class="pill ok">Parcialmente entregue</span>
+    </div>
+    <div class="pbody">
+      <div>
+        <div class="cap">O que trava hoje</div>
+        <p>O Seazone Host não trazia a informação de cobertura. Franquia não sabia se o imóvel tinha EasyCover nem que podia chamar a Assistência 24h. E a franquia vê o valor cobrado no dano, mas não o valor efetivamente pago.</p>
+      </div>
+      <div>
+        <div class="cap">O que foi pedido</div>
+        <ul>
+          <li><span class="pill ok">Entregue</span> Exibir no Host quais imóveis têm seguro</li>
+          <li><span class="pill no-ped">Pendente</span> Mostrar à franquia valor efetivamente pago (cobrado × pago)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ganho"><div class="ganhof">Como isso ajuda o processo</div>Coloca a informação onde a decisão é tomada. A transparência cobrado × pago tira da analista o papel de responder caso a caso quanto entrou de cada dano.</div>
+    <div class="resposta"><div>Ralph Breno confirmou inclusão no backlog. Item de cobrado × pago segue pendente.</div></div>
+  </div>
+
+  <div class="pedido">
+    <div class="ptop">
+      <div class="no">04</div>
+      <div>
+        <h3>Qualidade do lançamento e da validação — evidência, prints e conversa vinculada</h3>
+        <div class="meta">Solicitado em 14/07/2026 · 38 dias em aberto · pacote de 7 itens · nenhum entregue · afeta Etapas 1 e 2</div>
+      </div>
+      <span class="pill roadmap">Internalizado no roadmap</span>
+    </div>
+    <div class="pbody">
+      <div>
+        <div class="cap">O que trava hoje</div>
+        <p>Dano chega sem o material que a validação exige. Tratativa até fechar isso acontece na NewByte, fora do card, misturada com outros assuntos.</p>
+      </div>
+      <div>
+        <div class="cap">Pacote de 7 itens</div>
+        <ul>
+          <li>Descrição obrigatória, mínimo 30 caracteres</li>
+          <li>Campo separado para prints de conversa</li>
+          <li>Impedir print nos campos de Evidências e Orçamentos</li>
+          <li>Validação de evidência: foto do item completo + close</li>
+          <li>Criar conversa na Central de Atividades vinculada ao card</li>
+          <li>Campo obrigatório "Motivo do acionamento" como primeira mensagem</li>
+          <li>Exibir a conversa na própria tela do dano</li>
+        </ul>
+      </div>
+    </div>
+    <div class="ganho"><div class="ganhof">Como isso ajuda o processo</div>Age na entrada, corrige a causa e não o efeito. Evidência completa no lançamento = cobrança sai na primeira tentativa.</div>
+    <div class="alerta"><strong>Ajuste pendente no próprio pedido.</strong> Bloquear print no campo de Orçamentos <strong>não funciona</strong>: muitas franquias enviam print de loja como orçamento. O bloqueio precisa mirar <strong>print de conversa</strong> (WhatsApp), não captura de tela em geral. Precisa voltar à Tech e detalhar.</div>
+    <div class="resposta"><div>Karol internalizou e priorizou no roadmap. Nenhum dos 7 itens implementado até agora.</div></div>
+  </div>
+
+  <!-- Como se encaixam -->
+  <div class="duas">
+    <div class="col">
+      <div class="cap">Só a Tech resolve</div>
+      <ul>
+        <li>Liberar a reserva travada (Pedido 1)</li>
+        <li>Criar o dado de origem do pagamento (Pedido 2) &mdash; schema de banco</li>
+        <li>Mostrar à franquia cobrado × pago (Pedido 3 pendente)</li>
+        <li>Obrigar evidência no lançamento (Pedido 4)</li>
+        <li>Vincular conversa ao card (Pedido 4)</li>
+      </ul>
+    </div>
+    <div class="col">
+      <div class="cap">Estamos resolvendo por fora</div>
+      <ul>
+        <li>Preencher o formulário do AirCover (Ext 1)</li>
+        <li>Abrir o sinistro no EasyCover (Ext 2)</li>
+        <li>Redigir a comunicação com o hóspede (Ext 3)</li>
+        <li>Repassar o caso ao Jurídico (Automação 4)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="strip">
+    <div class="badge">Reforço mútuo</div>
+    <div>As duas frentes se reforçam: quanto melhor a evidência que entra (Pedido 4), mais a extensão consegue preencher sozinha sem rodada de complementação. E a origem do pagamento (Pedido 2) fecha o ciclo que a extensão abre no acionamento.</div>
+  </div>
+
+  <!-- =============== -->
+  <!-- S3 ARQUITETURA -->
+  <!-- =============== -->
+  <div class="sechead" id="s3"><h2>Arquitetura de processos de Danos</h2><div class="hint">12 processos de Danos + 1 upstream (Detecção de Crise NewByte)</div></div>
+
+  <p class="lede">Macroprocesso <strong>Gestão de Danos de Hóspede</strong> &mdash; da identificação do dano pelo franqueado ao encerramento financeiro no Sapron.</p>
+
+  <div class="k" style="margin-top:var(--s6); margin-bottom:var(--s3)">Nível 2 · 12 processos de Danos + 1 adjacente</div>
+
+  <div class="duas" style="grid-template-columns:repeat(3,1fr); gap:var(--s3)">
+    <div class="col" style="padding:var(--s4)"><span class="id p">P1</span> Entrada</div>
+    <div class="col" style="padding:var(--s4)"><span class="id p">P5</span> Cobrança · Multas Airbnb</div>
+    <div class="col" style="padding:var(--s4)"><span class="id p">P9</span> Seguro RC · Booking</div>
+    <div class="col" style="padding:var(--s4)"><span class="id p">P2</span> Triagem &amp; Validação</div>
+    <div class="col" style="padding:var(--s4)"><span class="id p">P6</span> Cobrança · Hóspede (NewByte/PayPal)</div>
+    <div class="col" style="padding:var(--s4)"><span class="id p">P10</span> Extrajudicial / Judicial</div>
+    <div class="col" style="padding:var(--s4)"><span class="id p">P3</span> Roteamento</div>
+    <div class="col" style="padding:var(--s4)"><span class="id p">P7</span> Seguro · EasyCover</div>
+    <div class="col" style="padding:var(--s4)"><span class="id p">P11</span> Encerramento &amp; Reembolso</div>
+    <div class="col" style="padding:var(--s4)"><span class="id p">P4</span> Cobrança · AirCover</div>
+    <div class="col" style="padding:var(--s4)"><span class="id p">P8</span> Seguro RC · Airbnb</div>
+    <div class="col" style="padding:var(--s4)"><span class="id p">P12</span> Controle de prazos (transversal)</div>
+  </div>
+
+  <div class="strip ok">
+    <div class="badge">P0 upstream</div>
+    <div><strong>Detecção de Crise em Conversas do NewByte</strong> — processo adjacente, dono é o <strong>Gerente de Relacionamento a Franquias</strong>. Gera alerta em <code>#alertas-crise-franquias</code> quando franquia envia mensagem com palavra-gatilho. Uma das rotas de encaminhamento é o <strong>Processo de Danos (SAPRON)</strong>. Serve como <strong>novo canal de entrada</strong> para P1. <span class="tag fato">FATO</span> Canvas atualizado em 21/07/2026. <span class="tag nd">ND</span> se automação já está em produção ou é desenho futuro.</div>
+  </div>
+
+  <div class="k" style="margin-top:var(--s8); margin-bottom:var(--s3)">Nível 3 · subprocessos, regras e pontos manuais</div>
+
+  <div class="proc-grid">
+
+    <div class="proc p0">
+      <h4>Detecção de Crise NewByte</h4><div class="pid">P0 · upstream · Gerente de Relacionamento</div>
+      <dl>
+        <dt>Objetivo</dt><dd>Identificar relato de crise no NewByte em tempo real e alertar o gerente</dd>
+        <dt>Gatilho</dt><dd>Franquia envia mensagem com palavra-gatilho</dd>
+        <dt>Categorias</dt><dd>Acidente estrutural · Lesão/ferimento · Incêndio/elétrico/gás · Roubo/furto/violência · Alagamento · Ameaça legal</dd>
+        <dt>Saída</dt><dd>Alerta em <code>#alertas-crise-franquias</code> com franquia, imóvel, palavra, trecho, link, data/hora</dd>
+        <dt>Rotas</dt><dd>Assistência 24h · <strong>Processo de Danos</strong> · Jurídico · Consultor Regional</dd>
+      </dl>
+    </div>
+
+    <div class="proc">
+      <h4>Entrada</h4><div class="pid">P1 · Franqueado</div>
+      <dl>
+        <dt>Objetivo</dt><dd>Registrar dano no Sapron com evidências completas</dd>
+        <dt>Gatilho</dt><dd>Checkout com dano identificado</dd>
+        <dt>Saída</dt><dd>Card em "Solicitação"</dd>
+        <dt>Regras</dt><dd><code>14d corridos</code> a partir do checkout · descrição por template</dd>
+        <dt>Manual</dt><dd>Preenchimento item a item</dd>
+      </dl>
+    </div>
+
+    <div class="proc">
+      <h4>Triagem &amp; Validação</h4><div class="pid">P2 · Fabi</div>
+      <dl>
+        <dt>Decisão</dt><dd>Esdrúxulo? → escalada · Evidências OK? → avança · Não? → NewByte pedir info</dd>
+        <dt>Regras</dt><dd><strong>Dano Esdrúxulo</strong>: <code>terceiros · PM-PC-PRF-PF-CBM · advogado · crime · multa · &gt;R$1.000</code> → Base de Conhecimento</dd>
+        <dt>Exceções</dt><dd>Cancelado Franquia · Item devolvido</dd>
+        <dt>Manual</dt><dd>Avaliação de evidência · decisão Esdrúxulo · mensagem NewByte</dd>
+        <dt>Retrabalho</dt><dd>Franquia envia info incompleta</dd>
+      </dl>
+    </div>
+
+    <div class="proc">
+      <h4>Roteamento</h4><div class="pid">P3 · Fabi</div>
+      <dl>
+        <dt>Decisão</dt><dd>OTA=Airbnb &amp; &lt;14d → P4 · OTA≠Airbnb → P6 · EasyCover disponível → P7 · Terceiros/lesão → P8/P9</dd>
+        <dt>Regras</dt><dd><code>AirCover 14d · EasyCover 1 ano · RC só terceiros/lesão</code></dd>
+      </dl>
+    </div>
+
+    <div class="proc">
+      <h4>Cobrança · AirCover</h4><div class="pid">P4 · Fabi + Extensão 1</div>
+      <dl>
+        <dt>Subprocessos</dt><dd>Abertura · Monitor 24h · "Pedir ajuda ao Airbnb" · Acompanhamento Crawford por e-mail · Pagamento</dd>
+        <dt>Regras</dt><dd><code>14d AirCover · 24h hóspede · &gt;14d sem apoio Airbnb</code></dd>
+        <dt>Manual</dt><dd>Clique final · resolver ⚠ ortografia · anexar foto · <span class="warn">ler e-mail delegado diariamente</span></dd>
+        <dt>Retrabalho</dt><dd>Travamento → excluir pedido e refazer</dd>
+      </dl>
+    </div>
+
+    <div class="proc">
+      <h4>Cobrança · Multas Airbnb</h4><div class="pid">P5 · Fabi</div>
+      <dl>
+        <dt>Entrada</dt><dd>Descrição indica multa (não dano material)</dd>
+        <dt>Regras</dt><dd><code>72h hóspede</code> · evidências obrigatórias: notificação formal e/ou câmera</dd>
+        <dt>Manual</dt><dd>Preenchimento completo (fluxo distinto)</dd>
+      </dl>
+    </div>
+
+    <div class="proc">
+      <h4>Cobrança · Hóspede</h4><div class="pid">P6 · Fabi + NewByte+PayPal+Financeiro</div>
+      <dl>
+        <dt>Subprocessos</dt><dd>1º/2º/3º contato · Link PayPal · Ticket cartão · Confirmação</dd>
+        <dt>Regras</dt><dd><code>1º ≤24h · 2º em 2-3d · cancela após 3 tentativas · fatura PayPal 15d</code> · templates Meta <code>danos_*_hospede</code> &mdash; <strong>não editáveis</strong></dd>
+        <dt>Manual</dt><dd>Buscar conversa NewByte · enviar template · registrar tratativa · criar fatura PayPal · abrir ticket financeiro</dd>
+      </dl>
+    </div>
+
+    <div class="proc">
+      <h4>Seguro · EasyCover</h4><div class="pid">P7 · Fabi + Extensão 2</div>
+      <dl>
+        <dt>Caminhos</dt><dd><strong>Seazone</strong> (apólice CNPJ) · <strong>Proprietário</strong> (apólice CPF)</dd>
+        <dt>Regras</dt><dd><code>1 ano · 1 sinistro por caso · só dano material · franquia 10% min: R$150/500/500/300 · raio sem franquia</code></dd>
+        <dt>Manual</dt><dd>Anexar documentos · copiar protocolo NS · consultar Pipefy CS no caminho Proprietário</dd>
+        <dt>Risco</dt><dd><span class="warn">Passo "Continuar" envia o sinistro de vez (sem salvar)</span></dd>
+      </dl>
+    </div>
+
+    <div class="proc">
+      <h4>Seguro RC · Airbnb</h4><div class="pid">P8 · Fabi + Crawford</div>
+      <dl>
+        <dt>Entrada</dt><dd>AirCover não cobriu, há dano a terceiros ou lesão</dd>
+        <dt>Regras</dt><dd><code>US$ 1 mi · só terceiros/lesão · não cobre dano ao próprio imóvel</code></dd>
+        <dt>Manual</dt><dd>100% manual · pesquisar e-mails Crawford em spam</dd>
+      </dl>
+    </div>
+
+    <div class="proc">
+      <h4>Seguro RC · Booking</h4><div class="pid">P9 · Fabi + Zurich/Crawford</div>
+      <dl>
+        <dt>Entrada</dt><dd>Dano a terceiros/corporal em reserva Booking</dd>
+        <dt>Regras</dt><dd><code>US$ 1 mi · reservas ≥31/03/2022 · só terceiros/corporal</code> · <span class="warn">Programa Contra Danos materiais encerrado em abr/2024</span> · formulário filtra por check-in</dd>
+      </dl>
+    </div>
+
+    <div class="proc">
+      <h4>Extrajudicial / Judicial</h4><div class="pid">P10 · Fabi + Jurídico + Automação 4 (Olimpo)</div>
+      <dl>
+        <dt>Subprocessos</dt><dd>Manual: envio no <code>#cobranças-extrajudiciais-danos</code> · Olimpo: agente roda 18h · Baixa manual de anexos · Notificação · Acompanhamento 7d</dd>
+        <dt>Regras</dt><dd><code>≥R$250 extrajudicial · &gt;R$2.500 ação judicial · 7d acompanhamento</code> · <span class="warn">último comentário antes do move = relato do hóspede</span></dd>
+      </dl>
+    </div>
+
+    <div class="proc">
+      <h4>Encerramento &amp; Reembolso</h4><div class="pid">P11 · Fabi</div>
+      <dl>
+        <dt>Subprocessos</dt><dd>Status → Finalizado · Tipo (Pago / Sem sucesso) · Motivo · Reembolso · Tag</dd>
+        <dt>Regras</dt><dd><strong>Lista oficial</strong>: Pago = 3 opções · Sem sucesso = 10 opções · tags <code>[Danos] ...</code></dd>
+        <dt>Manual</dt><dd>Múltiplas telas · texto livre produz "pago pelo hospede/pella/pela"</dd>
+        <dt>Pendente Tech</dt><dd>Pedido 2 unificaria tela + criaria campo origem do pagamento</dd>
+      </dl>
+    </div>
+
+    <div class="proc">
+      <h4>Controle de prazos</h4><div class="pid">P12 · transversal</div>
+      <dl>
+        <dt>SLAs</dt><dd><code>24h 1º contato · 2-3d 2º · 14d AirCover · 72h multas · 7d jurídico</code></dd>
+        <dt>Manual</dt><dd>100% monitoramento feito pela Fabi</dd>
+      </dl>
+    </div>
+
+  </div>
+
+  <div class="k" style="margin-top:var(--s8); margin-bottom:var(--s3)">Fluxo lógico</div>
+  <div class="flow">
+<span class="process">Franquia escreve no NewByte</span>  <span class="arrow">→</span>  <span class="lbl">P0 Detecção de Crise</span>  <span class="arrow">→</span>  alerta em #alertas-crise-franquias  <span class="arrow">→</span>  (rota: Danos)
+                          <span class="arrow">↓</span>
+<span class="process">Franquia abre dano no Sapron</span>  <span class="arrow">→</span>  <span class="lbl">P2 Triagem</span>
+                          <span class="arrow">↓</span>
+                      <span class="decision">Esdrúxulo?</span>  <span class="arrow">─sim→</span>  Base de Conhecimento (fora da automação)
+                          <span class="arrow">↓ não</span>
+                      <span class="decision">Evidências OK?</span>  <span class="arrow">─não→</span>  NewByte pedir info  ──loop
+                          <span class="arrow">↓ sim</span>
+                      <span class="lbl">P3 Roteamento</span>
+                          <span class="arrow">↓</span>
+     ┌──────────────┬────┴─────┬───────────────┬────────────────────┐
+     <span class="arrow">↓</span>              <span class="arrow">↓</span>          <span class="arrow">↓</span>               <span class="arrow">↓</span>                    <span class="arrow">↓</span>
+   <span class="process">P4 AirCover</span>    <span class="process">P5 Multas</span>  <span class="process">P6 NewByte</span>    <span class="process">P7 EasyCover</span>    <span class="process">P8/P9 RC</span>
+                          <span class="arrow">↓</span>
+                      <span class="decision">Pago?</span>  <span class="arrow">─não→</span>  <span class="lbl">P10 Extra/Judicial</span>  (se ≥R$250)
+                          <span class="arrow">↓ sim</span>
+                      <span class="lbl">P11 Encerramento</span>
+  </div>
+
+  <!-- =============== -->
+  <!-- S4 PONTOS MANUAIS -->
+  <!-- =============== -->
+  <div class="sechead" id="s4"><h2>Principais pontos manuais e retrabalhos</h2><div class="hint">Códigos M## referenciados no backlog final</div></div>
+
+  <table>
+    <thead><tr><th>ID</th><th>Ponto manual</th><th>Processo</th><th>Natureza</th></tr></thead>
+    <tbody>
+      <tr><td><span class="id m">M01</span></td><td>Clique final da Extensão 1 + resolver ⚠ ortografia + anexar foto</td><td><span class="id p">P4</span></td><td>Manual + conferência</td></tr>
+      <tr><td><span class="id m">M02</span></td><td>Redigir justificativa (ChatGPT) no "Pedir ajuda ao Airbnb" após 24h</td><td><span class="id p">P4</span></td><td>Julgamento humano</td></tr>
+      <tr><td><span class="id m">M03</span></td><td>Login diário no e-mail delegado <code>anfitriao@seazone</code> com 2FA via gestor Slack</td><td><span class="id p">P4</span></td><td>Repetição + dependência de pessoa</td></tr>
+      <tr><td><span class="id m">M04</span></td><td>Buscar conversa NewByte pelo código da reserva</td><td><span class="id p">P6</span></td><td>Cópia/cola</td></tr>
+      <tr><td><span class="id m">M05</span></td><td>Enviar template NewByte e registrar tratativa no Sapron</td><td><span class="id p">P6</span></td><td>Preenchimento + 2 sistemas</td></tr>
+      <tr><td><span class="id m">M06</span></td><td>Criar fatura PayPal com dados do dano</td><td><span class="id p">P6</span></td><td>Preenchimento manual</td></tr>
+      <tr><td><span class="id m">M07</span></td><td>Abrir ticket em <code>#suporte-financeiro</code> para cartão</td><td><span class="id p">P6</span></td><td>Preenchimento manual</td></tr>
+      <tr><td><span class="id m">M08</span></td><td>Anexar documentos no portal EasyCover</td><td><span class="id p">P7</span></td><td>Preenchimento manual</td></tr>
+      <tr><td><span class="id m">M09</span></td><td>Copiar protocolo NS do EasyCover para o Sapron</td><td><span class="id p">P7</span></td><td>Cópia/cola</td></tr>
+      <tr><td><span class="id m">M10</span></td><td>Consultar Pipefy CS para dados do proprietário (caminho EasyCover Proprietário)</td><td><span class="id p">P7</span></td><td>Múltiplos sistemas</td></tr>
+      <tr><td><span class="id m">M11</span></td><td>Baixar anexos do Sapron e colar na thread Slack do jurídico</td><td><span class="id p">P10</span></td><td>Download/upload manual</td></tr>
+      <tr><td><span class="id m">M12</span></td><td>Preencher formulário Liability Airbnb</td><td><span class="id p">P8</span></td><td>Preenchimento manual</td></tr>
+      <tr><td><span class="id m">M13</span></td><td>Preencher aviso de sinistro Booking (sem código de reserva)</td><td><span class="id p">P9</span></td><td>Preenchimento + risco de erro</td></tr>
+      <tr><td><span class="id m">M14</span></td><td>Finalização no Sapron (status + motivo texto livre + reembolso em telas separadas)</td><td><span class="id p">P11</span></td><td>Múltiplas telas + texto livre</td></tr>
+      <tr><td><span class="id m">M15</span></td><td>Mudar card para "Cobrança Judicial" garantindo último comentário = relato</td><td><span class="id p">P10</span></td><td>Disciplina humana</td></tr>
+      <tr><td><span class="id m">M16</span></td><td>Monitorar prazos (24h/14d AirCover · 72h multa · 7d jurídico)</td><td><span class="id p">P12</span></td><td>Acompanhamento manual</td></tr>
+      <tr><td><span class="id m">M17</span></td><td>Decidir se dano é Esdrúxulo</td><td><span class="id p">P2</span></td><td>Julgamento humano</td></tr>
+    </tbody>
+  </table>
+
+  <div class="k" style="margin-top:var(--s6); margin-bottom:var(--s3)">Retrabalhos recorrentes</div>
+  <table>
+    <thead><tr><th>ID</th><th>O que acontece</th><th>Causa</th></tr></thead>
+    <tbody>
+      <tr><td><span class="id r">R1</span></td><td>Franquia envia info incompleta na Validação</td><td>Lançamento sem evidência/NF &mdash; depende da franquia</td></tr>
+      <tr><td><span class="id r">R2</span></td><td>Travamento da Extensão 1 → excluir pedido Airbnb e refazer</td><td>Aba Airbnb em segundo plano · instabilidade do portal</td></tr>
+      <tr><td><span class="id r">R3</span></td><td>Comentário entrou depois do move p/ Judicial → Olimpo pega texto errado</td><td>Regra "último comentário = relato" depende de disciplina humana</td></tr>
+      <tr><td><span class="id r">R4</span></td><td>Variação ortográfica do motivo → relatório inconsistente</td><td>Campo texto livre no encerramento (Pedido 2 resolveria)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="duas">
+    <div class="col">
+      <div class="cap">Controles paralelos</div>
+      <ul>
+        <li>Drive com apólices EasyCover</li>
+        <li>Drive com comprovantes de sinistro</li>
+        <li>Planilha de bilhetes EasyCover (coluna O)</li>
+        <li>Pipefy CS Base de proprietários</li>
+        <li>Vault para credenciais PayPal e código 2FA</li>
+      </ul>
+    </div>
+    <div class="col">
+      <div class="cap">Dependências de pessoa</div>
+      <ul>
+        <li><strong>Gestor</strong> → código 2FA do e-mail <code>anfitriao@seazone</code></li>
+        <li><strong>Kremer</strong> (PF) → recebe pagamentos dos Seguros RC e repassa</li>
+        <li><strong>Ana Pivanti</strong> → jurídico</li>
+        <li><strong>Fabi</strong> → GPT pessoal usado para elaborar respostas</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- =============== -->
+  <!-- S5 CRUZAMENTO -->
+  <!-- =============== -->
+  <div class="sechead" id="s5"><h2>Cruzamento com o plano Carol</h2><div class="hint">Já coberto · parcial · fora · conflitos</div></div>
+
+  <div class="duas" style="grid-template-columns:1fr">
+
+    <div class="col">
+      <div class="cap">Já contemplado</div>
+      <table style="box-shadow:none; border:1px solid var(--line)">
+        <thead><tr><th>Processo</th><th>Correspondência</th></tr></thead>
+        <tbody>
+          <tr><td>Finalização Airbnb <span class="id m">M14</span></td><td>Fase 1</td></tr>
+          <tr><td>Prazos 24h/14d <span class="id m">M16</span> parcial</td><td>Fase 2</td></tr>
+          <tr><td>Contatos NewByte <span class="id m">M04</span>+<span class="id m">M05</span></td><td>Fase 3</td></tr>
+          <tr><td>Assistente respostas NewByte</td><td>Fase 4</td></tr>
+          <tr><td>Anexos jurídico <span class="id m">M11</span></td><td>Fase 5</td></tr>
+          <tr><td>Extensão 1 AirCover Autofill</td><td>Automação atual (lacuna fechamento 22/06)</td></tr>
+          <tr><td>Extensão 2 sinistro-easycover</td><td>Automação atual (só caminho Seazone)</td></tr>
+          <tr><td>Extensão 3 Assistente NewByte</td><td>Qualidade inferior ao GPT da Fabi</td></tr>
+          <tr><td>Automação 4 Olimpo</td><td>Anexos manuais pós-27/08</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col">
+      <div class="cap">Parcialmente contemplado</div>
+      <table style="box-shadow:none; border:1px solid var(--line)">
+        <thead><tr><th>Processo</th><th>Cobre</th><th>Falta</th></tr></thead>
+        <tbody>
+          <tr><td>Lista de motivos</td><td>Fase 1 fala em "lista fixa"</td><td>Não cita a lista oficial do canvas (3+10)</td></tr>
+          <tr><td>Tags NewByte</td><td>Fase 3 fala em registro Sapron</td><td>Não cita <code>[Danos] Primeiro/Segundo/Terceiro contato</code></td></tr>
+          <tr><td>EasyCover</td><td>Plano diz "nenhuma lacuna"</td><td>Só caminho Seazone &mdash; Proprietário ainda manual</td></tr>
+          <tr><td>Rollback das extensões</td><td>"Versão anterior disponível"</td><td>Sem detalhe de como</td></tr>
+          <tr><td>Prazos</td><td>Fase 2 cobre 24h/14d</td><td>Não cobre 72h multas, 7d jurídico, 2-3d 2º contato</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col">
+      <div class="cap">Não contemplado</div>
+      <table style="box-shadow:none; border:1px solid var(--line)">
+        <thead><tr><th>Processo</th><th>Evidência</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Dano Esdrúxulo</strong></td><td>Canvas Validação · 5 critérios · Base de Conhecimento</td></tr>
+          <tr><td><strong>Multas Airbnb</strong></td><td>Canvas Cobrança 2.2 · fluxo próprio 72h</td></tr>
+          <tr><td><strong>Monitor diário AirCover por e-mail delegado</strong></td><td>Canvas Cobrança 2.3 · "precisa ser diário"</td></tr>
+          <tr><td><strong>PayPal</strong></td><td>Canvas Cobrança 3.1</td></tr>
+          <tr><td><strong>Ticket cartão</strong></td><td>Canvas Cobrança · <code>#suporte-financeiro</code></td></tr>
+          <tr><td><strong>Seguro RC Airbnb</strong></td><td>Canvas Airbnb inteiro</td></tr>
+          <tr><td><strong>Seguro RC Booking</strong></td><td>Canvas Booking inteiro</td></tr>
+          <tr><td><strong>Reconciliação reembolso ↔ financeiro</strong></td><td>Não aparece em canvas nem no plano</td></tr>
+          <tr><td><strong>Baseline de métricas</strong></td><td>Plano não define</td></tr>
+          <tr><td><strong>Log local de auditoria</strong></td><td>Plano não define</td></tr>
+          <tr><td><strong>Guard-rail para R3</strong></td><td>Risco não mapeado no plano</td></tr>
+          <tr><td><strong>Interface com P0 Detecção de Crise</strong></td><td>Plano não considera esse canal como entrada</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="alerta"><strong>Conflitos a esclarecer com Fabi.</strong> <strong>1)</strong> Templates NewByte &mdash; plano Carol diz "texto livre está sendo entregue"; canvas Cobrança diz "não podem ser editados, devem ser utilizados exatamente como configurados". <strong>2)</strong> Plano diz que canvas cita "Blip e templates WhatsApp que não existem"; os canvases atuais citam NewByte e 3 templates ativos aprovados pela Meta. <span class="tag ana">ANÁLISE</span> Canvas é mais recente — vale rechecar.</div>
+
+  <!-- =============== -->
+  <!-- S6 AUTOMAÇÕES -->
+  <!-- =============== -->
+  <div class="sechead" id="s6"><h2>Automações identificadas</h2><div class="hint">Classificação apenas; detalhe no backlog (§9)</div></div>
+
+  <div class="duas">
+    <div class="col">
+      <div class="cap">Já previstas pela Carol</div>
+      <ul>
+        <li><span class="id a">A1</span> Finalização Airbnb (Fase 1)</li>
+        <li><span class="id a">A2</span> Semáforo 24h AirCover (Fase 2)</li>
+        <li><span class="id a">A3</span> Alerta 14d AirCover (Fase 2)</li>
+        <li><span class="id a">A4+A5</span> Buscar NewByte + template + registrar (Fase 3)</li>
+        <li><span class="id a">A6</span> Assistente NewByte com nível do GPT (Fase 4)</li>
+        <li><span class="id a">A7</span> Anexos para jurídico (Fase 5)</li>
+      </ul>
+    </div>
+    <div class="col">
+      <div class="cap">Novas oportunidades do cruzamento</div>
+      <ul>
+        <li><span class="id a">A8</span> Guard-rail Dano Esdrúxulo</li>
+        <li><span class="id a">A9</span> Multas Airbnb (Serviços Adicionais, 72h)</li>
+        <li><span class="id a">A10</span> Monitor diário AirCover (e-mail delegado)</li>
+        <li><span class="id a">A11</span> EasyCover caminho Proprietário</li>
+        <li><span class="id a">A12</span> Pré-preencher Liability Airbnb</li>
+        <li><span class="id a">A13</span> Pré-preencher Aviso Booking</li>
+        <li><span class="id a">A14</span> PayPal fatura pré-preenchida</li>
+        <li><span class="id a">A15</span> Ticket cartão no Slack</li>
+        <li><span class="id a">A16</span> Guard-rail último comentário Judicial</li>
+        <li><span class="id a">A17</span> Log local de auditoria</li>
+        <li><span class="id a">A18</span> Dashboard local de backlog</li>
+        <li><span class="id a">A19</span> Métricas / baseline</li>
+        <li><span class="id a">A20</span> Reconciliação reembolso ↔ financeiro</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- =============== -->
+  <!-- S7 ESTRATÉGIA -->
+  <!-- =============== -->
+  <div class="sechead" id="s7"><h2>Estratégia tecnológica</h2><div class="hint">Como as duas frentes se dividem</div></div>
+
+  <div class="duas">
+    <div class="col">
+      <div class="cap">Frente própria · evolução das extensões</div>
+      <p style="font-size:13.5px">Arquitetura comum: a extensão opera na sessão autenticada do usuário, fazendo as mesmas chamadas que a tela faz &mdash; padrão da sinistro-easycover. <strong>Nada é gravado sem clique humano.</strong></p>
+      <p style="font-size:13px; color:var(--mute)">
+        <span class="id a">A1</span>
+        <span class="id a">A2</span>
+        <span class="id a">A3</span>
+        <span class="id a">A4+A5</span>
+        <span class="id a">A7</span>
+        <span class="id a">A8</span>
+        <span class="id a">A9</span>
+        <span class="id a">A10</span>
+        <span class="id a">A11</span>
+        <span class="id a">A12</span>
+        <span class="id a">A13</span>
+        <span class="id a">A14</span>
+        <span class="id a">A15</span>
+        <span class="id a">A16</span>
+        <span class="id a">A17</span>
+        <span class="id a">A18</span>
+        <span class="id a">A19</span>
+      </p>
+    </div>
+    <div class="col">
+      <div class="cap">Frente Tech · Sapron</div>
+      <table style="box-shadow:none; border:1px solid var(--line)">
+        <thead><tr><th>Item</th><th>Natureza</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td><span class="id a">A6</span> Hospedagem assistente</td><td>Infra (Hub Seazone)</td><td>Não aberto · Henry</td></tr>
+          <tr><td><span class="id a">A5</span> Tag no NewByte (parcial)</td><td><span class="tag nd">ND</span> NewByte ou Tech</td><td>Validar antes</td></tr>
+          <tr><td>Pedido 1 Excluir card</td><td>Schema/banco</td><td>60d · sem previsão</td></tr>
+          <tr><td>Pedido 2 Finalização + origem</td><td>Schema + UI</td><td>60d · escalado</td></tr>
+          <tr><td>Pedido 3 Cobrado × pago no Host</td><td>Exposição no Host</td><td>66d · pendente</td></tr>
+          <tr><td>Pedido 4 Qualidade lançamento</td><td>Formulário + vínculo</td><td>38d · nenhum entregue</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="strip warn">
+    <div class="badge">Revisão</div>
+    <div>A afirmação "nenhum item exige mudar Sapron" vale só para o backlog A1-A19. O <strong>projeto como um todo depende dos 4 Pedidos à Tech</strong>, abertos desde jun-jul. A Fase 1 do plano atual (finalização via extensão) parece ter sido a decisão da Carol de resolver por fora o que o Pedido 2 à Tech resolveria no Sapron.</div>
+  </div>
+
+  <div class="k" style="margin-top:var(--s6); margin-bottom:var(--s3)">Não viável atualmente</div>
+  <table>
+    <thead><tr><th>Item</th><th>Por quê</th></tr></thead>
+    <tbody>
+      <tr><td>Fechamento totalmente autônomo</td><td>Risco de erro irreversível em reembolso · restrição do próprio plano</td></tr>
+      <tr><td>Automação do 2FA do e-mail delegado</td><td>Depende do gestor via Slack (política de segurança)</td></tr>
+      <tr><td>Automação do loop de e-mails com Crawford</td><td>Fora do escopo de extensão · A1-A10 cobrem só o lado "abrir sinistro"</td></tr>
+      <tr><td>Envio em massa pelo WhatsApp</td><td>Bloqueio Meta</td></tr>
+      <tr><td>Repasse Kremer → Seazone (RC)</td><td>Processo financeiro externo</td></tr>
+      <tr><td><span class="id a">A20</span> Reconciliação reembolso</td><td>Fonte autoritativa financeira <span class="tag nd">ND</span></td></tr>
+    </tbody>
+  </table>
+
+  <!-- =============== -->
+  <!-- S8 PERMANECE MANUAL -->
+  <!-- =============== -->
+  <div class="sechead" id="s8"><h2>Atividades que devem permanecer manuais</h2></div>
+  <table>
+    <thead><tr><th>Atividade</th><th>Por quê</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Decisão Dano Esdrúxulo</strong></td><td>Julgamento humano. Automação só deve detectar e <strong>impedir</strong> outros automatismos (A8)</td></tr>
+      <tr><td><strong>Decisão de contestar recusa de AirCover</strong></td><td>Avaliação de evidências disponíveis</td></tr>
+      <tr><td><strong>Clique "GRAVAR" das extensões</strong></td><td>Restrição do plano &mdash; nada é gravado sem clique humano</td></tr>
+      <tr><td><strong>Decisão de ir para extrajudicial</strong></td><td>Pondera valor, histórico, posição do hóspede</td></tr>
+      <tr><td><strong>Interlocução por e-mail com Crawford</strong></td><td>Risco e julgamento &mdash; extensão não deve escrever e-mail em nome da pessoa</td></tr>
+      <tr><td><strong>Escolha do hóspede certo no filtro Booking</strong></td><td>Risco de pegar hóspede errado &mdash; exige conferência</td></tr>
+    </tbody>
+  </table>
+
+  <!-- =============== -->
+  <!-- S9 BACKLOG -->
+  <!-- =============== -->
+  <div class="sechead" id="s9"><h2>Backlog final de automações</h2><div class="hint">Prioridade sem notas numéricas · critério na própria legenda</div></div>
+
+  <p class="lede"><span class="prio alta">Alta</span> frequência/volume confirmados no canvas, baixo risco técnico, redução direta de passos manuais · <span class="prio media">Média</span> sem baseline confirmado ou com dependência a validar · <span class="prio baixa">Baixa</span> frequência não quantificada ou valor marginal.</p>
+
+  <table>
+    <thead>
+      <tr><th>ID</th><th>Prio</th><th>Proc.</th><th>Automação</th><th>Resolve</th><th>Carol?</th><th>Solução</th><th>Ext</th><th>Sap</th><th>Tech</th><th>Dep.</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><span class="id a">A1</span></td><td><span class="prio alta">Alta</span></td><td><span class="id p">P11</span></td><td>Finalização Airbnb</td><td><span class="id m">M14</span></td><td><span class="yn sim">SIM</span> Fase 1</td><td>Painel + lista oficial 3+10 → humano confere → grava</td><td>✓</td><td>—</td><td>—</td><td>Lista motivos · A17</td></tr>
+      <tr><td><span class="id a">A8</span></td><td><span class="prio alta">Alta</span></td><td><span class="id p">P2</span></td><td>Guard-rail Dano Esdrúxulo</td><td>Risco de automatizar caso errado</td><td><span class="yn nao">NÃO</span></td><td>Verifica 5 critérios → desabilita botões → "tratativa manual"</td><td>✓</td><td>—</td><td>—</td><td>—</td></tr>
+      <tr><td><span class="id a">A16</span></td><td><span class="prio alta">Alta</span></td><td><span class="id p">P10</span></td><td>Guard-rail último comentário</td><td><span class="id r">R3</span></td><td><span class="yn nao">NÃO</span></td><td>Exige campo "relato do hóspede" ao mover p/ Judicial</td><td>✓</td><td>—</td><td>—</td><td>—</td></tr>
+      <tr><td><span class="id a">A2</span></td><td><span class="prio alta">Alta</span></td><td><span class="id p">P12</span></td><td>Semáforo 24h AirCover</td><td><span class="id m">M16</span></td><td><span class="yn sim">SIM</span> Fase 2</td><td>Lista cards &gt;24h em "Cobrança Airbnb"</td><td>✓</td><td>—</td><td>—</td><td>—</td></tr>
+      <tr><td><span class="id a">A3</span></td><td><span class="prio alta">Alta</span></td><td><span class="id p">P12</span></td><td>Alerta 14d AirCover</td><td><span class="id m">M16</span></td><td><span class="yn sim">SIM</span> Fase 2</td><td>Alerta se &lt;3d ou passou</td><td>✓</td><td>—</td><td>—</td><td>—</td></tr>
+      <tr><td><span class="id a">A4+A5</span></td><td><span class="prio alta">Alta</span></td><td><span class="id p">P6</span></td><td>NewByte + template + registrar</td><td><span class="id m">M04</span>+<span class="id m">M05</span></td><td><span class="yn parc">PARC.</span> Fase 3</td><td>Abre NewByte filtrado → sugere template → grava tratativa+tag</td><td>✓</td><td>—</td><td>validar NewByte</td><td>Templates · A17</td></tr>
+      <tr><td><span class="id a">A17</span></td><td><span class="prio alta">Alta</span></td><td>—</td><td>Log local operações</td><td>Auditoria + base A19</td><td><span class="yn nao">NÃO</span></td><td>IndexedDB 90d exportável</td><td>✓</td><td>—</td><td>—</td><td>—</td></tr>
+      <tr><td><span class="id a">A10</span></td><td><span class="prio media">Média</span></td><td><span class="id p">P4</span></td><td>Monitor diário AirCover</td><td><span class="id m">M03</span></td><td><span class="yn nao">NÃO</span></td><td>Content-script Gmail → filtra Crawford → mostra no painel</td><td>✓</td><td>—</td><td>—</td><td><code>mail.google.com</code></td></tr>
+      <tr><td><span class="id a">A9</span></td><td><span class="prio media">Média</span></td><td><span class="id p">P5</span></td><td>Multas Airbnb</td><td>Fluxo próprio</td><td><span class="yn nao">NÃO</span></td><td>Detecta "multa" → oferece botão correto → bloqueia sem evidência</td><td>✓</td><td>—</td><td>—</td><td>—</td></tr>
+      <tr><td><span class="id a">A11</span></td><td><span class="prio media">Média</span></td><td><span class="id p">P7</span></td><td>EasyCover Proprietário</td><td><span class="id m">M08</span>-<span class="id m">M10</span></td><td><span class="yn nao">NÃO</span></td><td>Decide fluxo pelo titular · consulta Pipefy+Drive</td><td>✓</td><td>—</td><td>—</td><td>Pipefy CS · Drive</td></tr>
+      <tr><td><span class="id a">A7</span></td><td><span class="prio media">Média</span></td><td><span class="id p">P10</span></td><td>Evidências p/ jurídico</td><td><span class="id m">M11</span></td><td><span class="yn sim">SIM</span> Fase 5</td><td>Compacta anexos → sobe na thread Slack</td><td>✓</td><td>—</td><td>—</td><td>—</td></tr>
+      <tr><td><span class="id a">A6</span></td><td><span class="prio media">Média</span></td><td><span class="id p">P6</span></td><td>Assistente NewByte</td><td>Qualidade inferior</td><td><span class="yn sim">SIM</span> Fase 4</td><td>Hub Seazone recebe conhecimento → NewByte consulta → humano revisa</td><td>✓ UI</td><td>—</td><td><strong>sim</strong> hospedagem</td><td>Henry</td></tr>
+      <tr><td><span class="id a">A15</span></td><td><span class="prio media">Média</span></td><td><span class="id p">P6</span></td><td>Ticket cartão Slack</td><td><span class="id m">M07</span></td><td><span class="yn nao">NÃO</span></td><td>Posta em <code>#suporte-financeiro</code> com dados</td><td>✓</td><td>—</td><td>—</td><td>—</td></tr>
+      <tr><td><span class="id a">A18</span></td><td><span class="prio media">Média</span></td><td><span class="id p">P12</span></td><td>Dashboard backlog</td><td>Visão rápida</td><td><span class="yn nao">NÃO</span></td><td>Agrega cards por fase/aging</td><td>✓</td><td>—</td><td>—</td><td>—</td></tr>
+      <tr><td><span class="id a">A19</span></td><td><span class="prio media">Média</span></td><td>—</td><td>Métricas / baseline</td><td>Sem base p/ ganho</td><td><span class="yn nao">NÃO</span></td><td>Export CSV semanal</td><td>✓</td><td>—</td><td>—</td><td>A17</td></tr>
+      <tr><td><span class="id a">A12</span></td><td><span class="prio baixa">Baixa</span></td><td><span class="id p">P8</span></td><td>Liability Airbnb</td><td><span class="id m">M12</span></td><td><span class="yn nao">NÃO</span></td><td>Formulário pré-preenchido</td><td>✓</td><td>—</td><td>—</td><td>Freq. <span class="tag nd">ND</span></td></tr>
+      <tr><td><span class="id a">A13</span></td><td><span class="prio baixa">Baixa</span></td><td><span class="id p">P9</span></td><td>Aviso Booking</td><td><span class="id m">M13</span></td><td><span class="yn nao">NÃO</span></td><td>Pré-preenche + sinaliza hóspede certo</td><td>✓</td><td>—</td><td>—</td><td>Freq. <span class="tag nd">ND</span></td></tr>
+      <tr><td><span class="id a">A14</span></td><td><span class="prio baixa">Baixa</span></td><td><span class="id p">P6</span></td><td>PayPal fatura</td><td><span class="id m">M06</span></td><td><span class="yn nao">NÃO</span></td><td>Botão → PayPal pré-preenchido</td><td>✓</td><td>—</td><td>—</td><td>Principalmente internacional</td></tr>
+      <tr><td><span class="id a">A20</span></td><td><span class="prio baixa">Baixa</span></td><td>—</td><td>Reconciliação reembolso</td><td>—</td><td><span class="yn nao">NÃO</span></td><td>—</td><td>—</td><td>—</td><td>—</td><td>Fonte <span class="tag nd">ND</span></td></tr>
+    </tbody>
+  </table>
+
+  <!-- =============== -->
+  <!-- S10 LACUNAS -->
+  <!-- =============== -->
+  <div class="sechead" id="s10"><h2>Lacunas &amp; checagem final</h2></div>
+
+  <table>
+    <thead><tr><th>Pendência</th><th>Natureza</th><th>Responsável sugerido</th></tr></thead>
+    <tbody>
+      <tr><td>Card de teste no Sapron</td><td>Operacional</td><td>Carolina + Fabi</td></tr>
+      <tr><td>Link do GPT de danos da Fabi</td><td>Técnica</td><td>Fabi</td></tr>
+      <tr><td>Aprovador oficial dos repositórios seazone-tech</td><td>Governança</td><td>Carolina</td></tr>
+      <tr><td>Acesso de leitura ao Sapron para analista do jurídico</td><td>Governança + segurança</td><td>Carolina + admin</td></tr>
+      <tr><td>Hospedagem do servidor do assistente</td><td>Infra</td><td>Carolina + Henry</td></tr>
+      <tr><td>Capacidade de extensão operar no NewByte</td><td>Técnica</td><td>Validar antes de A5</td></tr>
+      <tr><td>Fonte autoritativa do financeiro para A20</td><td>Governança</td><td>Carolina</td></tr>
+      <tr><td>Extração do conhecimento do GPT da Fabi</td><td>Conhecimento</td><td>Fabi + Henry</td></tr>
+      <tr><td>Baseline por fase (tempo médio, taxa por motivo)</td><td>Dados</td><td>A17 + A19 habilitam</td></tr>
+      <tr><td>Rechecar com Fabi se canvas ainda cita "Blip"</td><td>Conteúdo</td><td>Fabi</td></tr>
+      <tr><td>Status atual do P0 Detecção de Crise NewByte</td><td>Técnica</td><td>Gerente de Relacionamento</td></tr>
+    </tbody>
+  </table>
+
+  <div class="final-check">
+    <h3>Checagem final <em>·</em> alguma atividade manual relevante sem proposta?</h3>
+    <p>Sim. Três, com justificativa:</p>
+    <ol>
+      <li><strong>Interlocução por e-mail com Crawford</strong> (Seguros RC) &mdash; A1-A10-A12-A13 reduzem o lado "abrir sinistro"; o loop seguinte permanece manual por decisão de risco (§8).</li>
+      <li><strong>Preenchimento do dano pelo franqueado</strong> (P1 Entrada) &mdash; fora do escopo do plano Carol. Candidato futuro. <strong>Pedido 4 à Tech endereça parcialmente</strong>.</li>
+      <li><strong>Decisão de contestar recusa do AirCover</strong> &mdash; preservada como manual deliberadamente (§8).</li>
+    </ol>
+    <div class="finish">Mapa consolidado concluído. Nenhuma automação foi adicionada ou alterada em relação às etapas anteriores &mdash; apenas consolidação, padronização de nomenclatura e eliminação de redundâncias.</div>
+  </div>
+
+  <footer>
+    <span>Área de Danos · Análise consolidada</span>
+    <span>Processo real × projeto Carol</span>
+    <span>01 · 10 · 2026</span>
+  </footer>
+
+</div>
+</body>
+</html>
